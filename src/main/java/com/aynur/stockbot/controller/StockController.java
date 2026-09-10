@@ -1,6 +1,7 @@
 package com.aynur.stockbot.controller;
 
 import com.aynur.stockbot.model.AnalysisResponse;
+import com.aynur.stockbot.model.MacdResult;
 import com.aynur.stockbot.service.AnalysisService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,4 +22,5 @@ public class StockController {
     ) {
         return analysisService.analyze(symbol);// Analizi servisə ötürürük
     }
+
 }
