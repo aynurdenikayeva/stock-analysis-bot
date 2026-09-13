@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.ta4j.core.BarSeries;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class AnalysisService {
@@ -32,7 +33,13 @@ public class AnalysisService {
         this.emaService = emaService;
         this.analysisRepository = analysisRepository;
     }
-
+    public List<AnalysisHistory> getHistory() {
+        return analysisRepository.findAll();
+    }
+    public List<AnalysisHistory> getHistoryBySymbol(String symbol) {
+        return analysisRepository
+                .findBySymbol(symbol);
+    }
     public AnalysisResponse analyze(String symbol) {
         // Finnhub-dan qiymət məlumatlarını alırıq
         FinnhubCandleResponse response = finnhubService.getCandles(symbol);
