@@ -1,12 +1,12 @@
 package com.aynur.stockbot.service;
 
 import com.aynur.stockbot.mapper.BarSeriesMapper;
-import com.aynur.stockbot.model.AnalysisResponse;
-import com.aynur.stockbot.model.EmaResult;
-import com.aynur.stockbot.model.FinnhubCandleResponse;
-import com.aynur.stockbot.model.MacdResult;
+import com.aynur.stockbot.model.*;
+import com.aynur.stockbot.repository.AnalysisRepository;
 import org.springframework.stereotype.Service;
 import org.ta4j.core.BarSeries;
+
+import java.time.LocalDateTime;
 
 @Service
 public class AnalysisService {
@@ -16,19 +16,21 @@ public class AnalysisService {
     private final RsiService rsiService;
     private final MacdService macdService;
     private final EmaService emaService;
+    private final AnalysisRepository analysisRepository;
 
     public AnalysisService(
             FinnhubService finnhubService,
             BarSeriesMapper mapper,
             RsiService rsiService,
             MacdService macdService,
-            EmaService emaService) {
+            EmaService emaService, AnalysisRepository analysisRepository) {
 
         this.finnhubService = finnhubService;
         this.mapper = mapper;
         this.rsiService = rsiService;
         this.macdService = macdService;
         this.emaService = emaService;
+        this.analysisRepository = analysisRepository;
     }
 
     public AnalysisResponse analyze(String symbol) {
@@ -75,6 +77,31 @@ public class AnalysisService {
         else {
             signal = "HOLD";
         }
+        AnalysisHistory history =
+                new AnalysisHistory();
+
+        history.setSymbol(symbol);
+        history.setRsi(rsi);
+
+        history.setMacd(
+                macdResult.getMacd());
+
+        history.setSignalLine(
+                macdResult.getSignalLine());
+
+        history.setEma20(
+                emaResult.getEma20());
+
+        history.setEma50(
+                emaResult.getEma50());
+
+        history.setSignal(signal);
+
+        history.setCreatedAt(LocalDateTime.now()
+        );
+
+        analysisRepository.save(history);         // PostgreSQL-ə yazırıq
+
 
         return new AnalysisResponse(
                 symbol,
