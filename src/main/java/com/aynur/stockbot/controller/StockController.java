@@ -10,7 +10,6 @@ import java.util.List;
 
 @RestController // Bu sinfin bir Controller olduğunu Spring-ə bildirir
 @RequestMapping("api/stocks")// Bu controller-ə gələcək əsas URL yolunu təyin edir
-@CrossOrigin(origins = "http://localhost:5173")
 public class StockController {
  private final AnalysisService analysisService;// AnalysisService obyektini inject edirik
 
