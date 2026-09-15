@@ -4,15 +4,13 @@ import com.aynur.stockbot.model.AnalysisHistory;
 import com.aynur.stockbot.model.AnalysisResponse;
 import com.aynur.stockbot.model.MacdResult;
 import com.aynur.stockbot.service.AnalysisService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController // Bu sinfin bir Controller olduğunu Spring-ə bildirir
 @RequestMapping("api/stocks")// Bu controller-ə gələcək əsas URL yolunu təyin edir
+@CrossOrigin(origins = "http://localhost:5173")
 public class StockController {
  private final AnalysisService analysisService;// AnalysisService obyektini inject edirik
 
